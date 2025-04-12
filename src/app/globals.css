@@ -2,28 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for checkboxes */
-.todo-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.todo-checkbox label {
-  display: block;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #4a6eb5;
-  border-radius: 4px;
-  position: relative;
-  cursor: pointer;
-}
-
-.todo-checkbox input[type="checkbox"]:checked + label:after {
-  content: '\2713';
-  color: #4a6eb5;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 14px;
-  font-weight: bold;
-}

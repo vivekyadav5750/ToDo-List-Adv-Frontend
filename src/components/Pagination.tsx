@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { setPage } from "@/redux/reducers/todoSlice";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 function Pagination() {
   const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ function Pagination() {
         disabled={currentPage === 1}
         className="flex items-center gap-2 text-primary hover:bg-light-gray px-4 py-2 rounded disabled:text-secondary disabled:cursor-not-allowed"
       >
-        <i className="fas fa-chevron-left"></i> Previous
+        <GrFormPrevious size={22}/>Previous
       </button>
       <div className="font-medium">
         <span>{currentPage}</span> / <span>{totalPages}</span>
@@ -24,7 +25,7 @@ function Pagination() {
         disabled={currentPage === totalPages}
         className="flex items-center gap-2 text-primary hover:bg-light-gray px-4 py-2 rounded disabled:text-secondary disabled:cursor-not-allowed"
       >
-        Next <i className="fas fa-chevron-right"></i>
+        Next<GrFormNext size={22} />
       </button>
     </div>
   );

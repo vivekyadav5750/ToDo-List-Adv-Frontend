@@ -2,7 +2,7 @@ import { useState } from "react";
 import EditTodoModal from "./EditTodoModal";
 import NoteModal from "./NoteModal";
 import { Todo } from "../types/index";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch } from "../redux/hook";
 import { deleteTodo, updateTodo } from "../redux/reducers/todoSlice";
 import { FaEdit, FaStickyNote } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -11,9 +11,6 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-
-  const { filters } = useAppSelector((state) => state.todos);
-  console.log("filters", filters);
 
   const dispatch = useAppDispatch();
 
@@ -32,26 +29,42 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
   return (
     <>
       <div
-        className="flex items-start p-4 bg-white border-b border-medium-gray hover:bg-light-gray transition cursor-pointer"
+        className="flex items-start p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 mb-4"
       >
-        <div className="todo-checkbox mr-4">
-          <input
-            type="checkbox"
-            id={`todo-${todo._id}`}
-            checked={todo.completed}
-            onChange={handleToggleComplete}
-          />
-          <label htmlFor={`todo-${todo._id}`}></label>
+        <div className="flex items-center mr-4">
+          <div className="relative">
+            <input
+              type="checkbox"
+              id={`todo-${todo._id}`}
+              checked={todo.completed}
+              onChange={handleToggleComplete}
+              className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-gray-300 transition-all duration-200 hover:border-green-500 checked:border-green-500 checked:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+            />
+            <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3.5 w-3.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
         <div className="flex-1" onClick={() => setIsDetailsOpen(true)}>
-          <h3 className="text-lg font-medium">{todo.title}</h3>
-          <div className="flex flex-wrap items-center gap-3 text-sm">
+          <h3 className={`text-lg font-medium ${todo.completed ? ' text-gray-400' : 'text-gray-800'}`}>{todo.title}</h3>
+          <div className="flex flex-wrap items-center gap-2 mt-2">
             <span
-              className={`px-2 py-1 rounded ${todo.priority === "high"
-                ? "bg-red-100 text-danger"
-                : todo.priority === "medium"
-                  ? "bg-yellow-100 text-warning"
-                  : "bg-green-100 text-success"
+              className={`px-3 py-1 rounded-full text-sm font-medium ${todo.priority === "high"
+                  ? "bg-red-100 text-red-800"
+                  : todo.priority === "medium"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-green-100 text-green-800"
                 }`}
             >
               {todo.priority}
@@ -60,7 +73,7 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
               {todo.tags?.map((tag) => (
                 <span
                   key={tag}
-                  className="bg-blue-300 text-gray-800 px-2 py-1 rounded text-xs "
+                  className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium"
                 >
                   {tag}
                 </span>
@@ -70,7 +83,7 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
               {todo.assignedUsers?.map((user) => (
                 <span
                   key={key}
-                  className="bg-light-gray text-dark-gray px-2 py-1 rounded text-xs"
+                  className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-medium"
                 >
                   @{user.username}
                 </span>
@@ -80,7 +93,7 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
         </div>
         <div className="flex gap-2">
           <button
-            className="text-secondary hover:text-primary w-8 h-8 flex items-center justify-center rounded-full hover:bg-medium-gray"
+            className="text-gray-500 hover:text-blue-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-blue-50 transition-all duration-200"
             title="Add note"
             onClick={(e) => {
               e.stopPropagation();
@@ -90,7 +103,7 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
             <FaStickyNote />
           </button>
           <button
-            className="text-secondary hover:text-warning w-8 h-8 flex items-center justify-center rounded-full hover:bg-medium-gray"
+            className="text-gray-500 hover:text-yellow-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-yellow-50 transition-all duration-200"
             title="Edit todo"
             onClick={(e) => {
               e.stopPropagation();
@@ -100,7 +113,7 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
             <FaEdit />
           </button>
           <button
-            className="text-secondary hover:text-danger w-8 h-8 flex items-center justify-center rounded-full hover:bg-medium-gray"
+            className="text-gray-500 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 transition-all duration-200"
             title="Delete todo"
             onClick={(e) => {
               e.stopPropagation();
@@ -124,49 +137,75 @@ function TodoItem({ key, todo }: { key: string; todo: Todo }) {
         />
       )}
       {isDetailsOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded p-6 w-full max-w-lg">
-            <h2 className="text-xl font-bold mb-4">{todo.title}</h2>
-            <p className="mb-2">
-              <strong>Description:</strong> {todo.description || "N/A"}
-            </p>
-            <p className="mb-2">
-              <strong>Priority:</strong> {todo.priority}
-            </p>
-            <p className="mb-2">
-              <strong>Tags:</strong> {todo.tags.join(", ") || "None"}
-            </p>
-            <p className="mb-2">
-              <strong>Assigned Users:</strong>{" "}
-              {/* {todo.assignedUsers?.join(", ") || "None"} */}
-              {todo.assignedUsers?.map((user) => (
-                <span
-                  key={user._id}
-                  className="bg-light-gray text-dark-gray px-2 py-1 rounded text-xs"
-                >
-                  {user.username}
-                </span>
-              ))}
-            </p>
-            <div className="mb-4">
-              <strong>Notes:</strong>
-              {todo.notes.length > 0 ? (
-                <ul className="list-disc pl-5">
-                  {todo.notes.map((note, index) => (
-                    <li key={index}>
-                      {note.content}{" "}
-                      <em>({new Date(note.createdAt).toLocaleDateString()})</em>
-                    </li>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-xl">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{todo.title}</h2>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Description</h3>
+                <p className="mt-1 text-gray-700">{todo.description || "N/A"}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Priority</h3>
+                <p className="mt-1">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${todo.priority === "high"
+                      ? "bg-red-100 text-red-800"
+                      : todo.priority === "medium"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-green-100 text-green-800"
+                    }`}>
+                    {todo.priority}
+                  </span>
+                </p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Tags</h3>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {todo.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium"
+                    >
+                      {tag}
+                    </span>
                   ))}
-                </ul>
-              ) : (
-                <p>No notes</p>
-              )}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Assigned Users</h3>
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {todo.assignedUsers?.map((user) => (
+                    <span
+                      key={user._id}
+                      className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-medium"
+                    >
+                      @{user.username}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Notes</h3>
+                {todo.notes.length > 0 ? (
+                  <ul className="mt-2 space-y-2">
+                    {todo.notes.map((note, index) => (
+                      <li key={index} className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-gray-700">{note.content}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {new Date(note.createdAt).toLocaleDateString()}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-1 text-gray-500">No notes</p>
+                )}
+              </div>
             </div>
-            <div className="flex justify-end">
+            <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setIsDetailsOpen(false)}
-                className="bg-secondary text-gray-800 px-4 py-2 rounded hover:bg-gray-600"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 Close
               </button>

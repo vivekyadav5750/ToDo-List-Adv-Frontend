@@ -46,22 +46,22 @@ export default function Home() {
   };
 
   return (
-    <div className="container   bg-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {currentUser ? (
         <>
-          <header className="bg-white shadow-custom py-4 px-6 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Todo List</h1>
-            <div className="flex items-center gap-4">
+          <header className="bg-white shadow-lg py-4 px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 className="text-2xl font-bold text-gray-800">Todo List</h1>
+            <div className="flex items-center gap-4 flex-wrap justify-center">
               <button
                 onClick={handleExport}
-                className="bg-secondary px-4 py-2 text-gray-800 rounded flex items-center  bg-gray-500 hover:bg-gray-600 transition"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
                 disabled={status === "loading"}
               >
                 <FaFileExport className="mr-2" />
                 Export
               </button>
               <UserSwitcher currentUser={currentUser} />
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-lg">
                 <Image
                   src="/placeholder-avatar.png"
                   alt={currentUser.name}
@@ -69,59 +69,59 @@ export default function Home() {
                   height={32}
                   className="rounded-full"
                 />
-                {currentUser.name}
+                <span className="text-gray-700 font-medium">{currentUser.name}</span>
               </div>
             </div>
           </header>
-          <main className="flex gap-6 mt-6">
-            <aside className="w-64 bg-white rounded shadow-custom p-4">
-              <Filters />
-            </aside>
-            <section className="flex-1">
-              <div className="mb-4 flex justify-between items-center">
-                <button
-                  onClick={() => setIsAddModalOpen(true)}
-                  className="bg-primary text-gray-800 px-4 py-2 rounded flex items-center gap-2 hover:bg-primary-dark transition"
-                  disabled={status === "loading"}
-                >
-                  <FaPlus /> Add Todo
-                </button>
-                <div className="flex w-1/2">
-                  <input
-                    type="text"
-                    placeholder="Search todos..."
-                    className="flex-1 p-2 border border-medium-gray rounded-l focus:outline-none"
-                    value={filters.search}
-                    onChange={(e) => {
-                      dispatch(setFilters({ search: e.target.value }))
-                      dispatch(fetchTodos())
-                    }
-                    }
-                  />
-                  <button className="bg-primary text-gray-800 p-2 rounded-r">
-                    <FaSearch />
+          <main className="container mx-auto px-4 py-6">
+            <div className="flex flex-col lg:flex-row gap-6">
+              <aside className="w-full lg:w-64 bg-white rounded-lg shadow-lg p-4">
+                <Filters />
+              </aside>
+              <section className="flex-1">
+                <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+                  <button
+                    onClick={() => setIsAddModalOpen(true)}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 w-full md:w-auto justify-center"
+                    disabled={status === "loading"}
+                  >
+                    <FaPlus /> Add Todo
                   </button>
+                  <div className="flex w-full md:w-1/2">
+                    <input
+                      type="text"
+                      placeholder="Search todos..."
+                      className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={filters.search}
+                      onChange={(e) => {
+                        dispatch(setFilters({ search: e.target.value }))
+                        dispatch(fetchTodos())
+                      }}
+                    />
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-r-lg transition-all duration-200">
+                      <FaSearch />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              {status === "loading" && (
-                <div className="text-center">Loading...</div>
-              )}
-              {status === "failed" && (
-                <div className="text-center text-danger">{error}</div>
-              )}
-              <TodoList />
-            </section>
+                {status === "loading" && (
+                  <div className="text-center text-gray-600">Loading...</div>
+                )}
+                {status === "failed" && (
+                  <div className="text-center text-red-500">{error}</div>
+                )}
+                <TodoList />
+              </section>
+            </div>
           </main>
           {isAddModalOpen && (
             <AddTodoModal onClose={() => setIsAddModalOpen(false)} />
           )}
-
-        </>)
-        :
-        (<div>
-          Loading ...
-        </div>)
-      }
-    </div >
+        </>
+      ) : (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-gray-600">Loading...</div>
+        </div>
+      )}
+    </div>
   )
 }
