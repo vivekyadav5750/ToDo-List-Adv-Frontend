@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Custom styles for checkboxes */
+.todo-checkbox input[type="checkbox"] {
+  display: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.todo-checkbox label {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #4a6eb5;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.todo-checkbox input[type="checkbox"]:checked + label:after {
+  content: '\2713';
+  color: #4a6eb5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
 }
