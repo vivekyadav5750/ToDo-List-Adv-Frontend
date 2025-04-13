@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Todo Application
+
+## Tech Stack
+
+### Frontend
+- **Next.js 14**: React framework for building the user interface
+- **TypeScript**: For type safety and better developer experience
+- **Redux Toolkit**: For state management
+- **Tailwind CSS**: For styling and responsive design
+- **React Icons**: For consistent iconography
+
+### Backend
+- **Node.js**: Runtime environment
+- **Express.js**: Web framework
+- **MongoDB**: Database
+- **Mongoose**: ODM for MongoDB
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js (v18 or higher)
+- MongoDB (v6 or higher)
+- npm or yarn package manager
 
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd todo
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following variables:
+```env
+MONGODB_URI=your_mongodb_connection_string
+PORT=3000
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Design Decisions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### State Management
+- Used Redux Toolkit for centralized state management
+- Implemented slices for todos, users, and filters
+- Optimized performance with memoization and selective updates
 
-## Learn More
+### UI/UX Design
+- Modern, clean interface with consistent styling
+- Responsive design for all screen sizes
+- Intuitive navigation and user flows
+- Clear visual feedback for user actions
+- Custom checkbox implementation for better UX
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Core Features
+1. **Todo Management**
+   - Create, read, update, and delete todos
+   - Mark todos as complete/incomplete
+   - Add descriptions and notes
+   - Set priority levels
+   - Add tags for categorization
 
-## Deploy on Vercel
+2. **User Management**
+   - User authentication
+   - User switching functionality
+   - Assign todos to users
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Filtering and Search**
+   - Filter by priority
+   - Filter by tags
+   - Search todos by title
+   - Pagination support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Export Functionality**
+   - Export todos to CSV format
+
+### Additional Features
+1. **Responsive Design**
+   - Mobile-first approach
+   - Adaptive layouts for different screen sizes
+   - Touch-friendly interactions
+
+2. **Enhanced UI Components**
+   - Custom checkbox implementation
+   - Modal dialogs for add/edit operations
+   - Tag and user badges
+   - Priority indicators with color coding
+
+3. **Performance Optimizations**
+   - Memoized components
+   - Optimized re-renders
+   - Efficient state updates
+
+## Setup Scripts
+
+### Development
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Run tests
+npm run test
+
+# Build for production
+npm run build
+```
+
+### Production
+```bash
+# Start production server
+npm start
+
+# Build and start
+npm run build && npm start
+```
